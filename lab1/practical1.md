@@ -314,9 +314,8 @@ chatbot()
               1       0.80      0.78      0.79       100
 
         accuracy                           0.80       200
-
-    macro avg 0.80 0.80 0.79 200
-    weighted avg 0.80 0.80 0.79 200
+       macro avg      0.80      0.80       0.79       200
+    weighted avg      0.80      0.80       0.79       200
 
     Confusion Matrix:
     [[81 19]
@@ -326,7 +325,31 @@ chatbot()
     Precision for class 1 (positive sentiment): 0.80
     Recall for class 0: 0.81
     Recall for class 1: 0.78
+
+
+    25K Large 
+    Classification Report:
+                precision    recall  f1-score   support
+
+            0       0.76      0.74      0.75      1960
+            1       0.84      0.85      0.84      3040
+
+        accuracy                           0.81      5000
+       macro avg       0.80      0.80      0.80      5000
+    weighted avg       0.81      0.81      0.81      5000
+
+    Confusion Matrix:
+    [[1458  502]
+    [ 456 2584]]
+
+    Test Accuracy: 80.84%
+    Precision for class 0 (negative sentiment): 0.76
+    Precision for class 1 (positive sentiment): 0.84
+    Recall for class 0: 0.74
+    Recall for class 1: 0.85
     ```
+
+    
 
     - Best suited for relatively small datasets
     - Ideal for tasks with straightforward relationships between input features and output
@@ -344,8 +367,8 @@ chatbot()
 
         accuracy                           0.73       200
 
-    macro avg 0.73 0.73 0.72 200
-    weighted avg 0.73 0.72 0.72 200
+       macro avg      0.73      0.73       0.72       200
+    weighted avg      0.73      0.7        0.72       200
 
     Confusion Matrix:
     [[77 23]
@@ -355,6 +378,28 @@ chatbot()
     Precision for class 1 (positive sentiment): 0.75
     Recall for class 0: 0.77
     Recall for class 1: 0.68
+
+
+    25K Large 
+    Classification Report:
+                precision    recall  f1-score   support
+
+            0       0.83      0.80      0.81      1960
+            1       0.87      0.89      0.88      3040
+
+        accuracy                           0.86      5000
+       macro avg       0.85      0.85      0.85      5000
+    weighted avg       0.86      0.86      0.86      5000
+
+    Confusion Matrix:
+    [[1568  392]
+    [ 323 2717]]
+
+    Test Accuracy: 85.7%
+    Precision for class 0 (negative sentiment): 0.83
+    Precision for class 1 (positive sentiment): 0.87
+    Recall for class 0: 0.80
+    Recall for class 1: 0.89
     ```
 
     - Optimal for sequential data such as text or time series
