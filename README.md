@@ -180,7 +180,6 @@ Input Matrix ( X ):
 X = \begin{bmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \end{bmatrix} \in \mathbb{R}^{3 \times 4}
 ```
 
-
 Sequence length: $n = 3$
 
 Embedding dimension: $d_{\text{model}} = 4$
@@ -191,19 +190,27 @@ Dimension for $Q$, $K$, $V$: $d_k = d_v = 2$ (for single-head and per head in mu
 
 Weight matrices:
 
-$$W_Q = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_K = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_V = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix} \in \mathbb{R}^{4 \times 2}$$
+```math
+W_Q = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_K = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_V = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix} \in \mathbb{R}^{4 \times 2}
+```
 
 Step 1: Compute $Q$, $K$, $V$
 
-$$Q = X W_Q = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}, \quad K = X W_K = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix}, \quad V = X W_V = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} \in \mathbb{R}^{3 \times 2}$$
+```math
+Q = X W_Q = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}, \quad K = X W_K = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix}, \quad V = X W_V = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} \in \mathbb{R}^{3 \times 2}
+```
 
 Step 2: Attention Scores
 
-$$Q K^T = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$$
+```math
+Q K^T = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}
+```
 
 Scale by $\sqrt{d_k} = \sqrt{2} \approx 1.414$:
 
-$$\frac{Q K^T}{\sqrt{d_k}} = \begin{bmatrix} 0 & 0.707 & 0 \\ 0.707 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$$
+```math
+\frac{Q K^T}{\sqrt{d_k}} = \begin{bmatrix} 0 & 0.707 & 0 \\ 0.707 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}
+```
 
 Step 3: Attention Weights
 
@@ -213,11 +220,15 @@ Apply softmax per row:
 -   Row 2: $\text{softmax}([0.707, 0, 0]) \approx [0.512, 0.244, 0.244]$
 -   Row 3: $\text{softmax}([0, 0, 0]) \approx [0.333, 0.333, 0.333]$
 
-$$\text{Attention Weights} = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix}$$
+```math
+\text{Attention Weights} = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix}
+```
 
 Step 4: Attention Output
 
-$$\text{Attention}(Q, K, V) = \text{Attention Weights} \cdot V = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0.244 & 0.512 \\ 0.512 & 0.244 \\ 0.333 & 0.333 \end{bmatrix}$$
+```math
+\text{Attention}(Q, K, V) = \text{Attention Weights} \cdot V = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0.244 & 0.512 \\ 0.512 & 0.244 \\ 0.333 & 0.333 \end{bmatrix}
+```
 
 Token 1: $[0.244, 0.512]$, leans toward Token 2's value $[0, 1]$ (weight 0.512).
 
@@ -237,49 +248,69 @@ Head 1
 
 Use same weight matrices as single-head:
 
-$$W_Q^1 = W_Q, \quad W_K^1 = W_K, \quad W_V^1 = W_V$$
+```math
+W_Q^1 = W_Q, \quad W_K^1 = W_K, \quad W_V^1 = W_V
+```
 
 Q, K, V: Same as single-head
 
-Attention Weights\*\*: Same as single-head
+Attention Weights: Same as single-head
 
 Head 1 Output:
 
-$$\text{head}_1 = \begin{bmatrix} 0.244 & 0.512 \\ 0.512 & 0.244 \\ 0.333 & 0.333 \end{bmatrix}$$
+```math
+\text{head}_1 = \begin{bmatrix} 0.244 & 0.512 \\ 0.512 & 0.244 \\ 0.333 & 0.333 \end{bmatrix}
+```
 
 Head 2
 
 New weight matrices:
 
-$$W_Q^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_K^2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_V^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}$$
+```math
+W_Q^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_K^2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}, \quad W_V^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}
+```
 
 Compute Q, K, V:
 
-$$Q^2 = X W_Q^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix}, \quad K^2 = X W_K^2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}, \quad V^2 = X W_V^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix}$$
+```math
+Q^2 = X W_Q^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix}, \quad K^2 = X W_K^2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}, \quad V^2 = X W_V^2 = \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix}
+```
 
 Attention Scores:
 
-$$Q^2 K^{2T} = \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}, \quad \frac{Q^2 K^{2T}}{\sqrt{d_k}} = \begin{bmatrix} 0 & 0.707 & 0 \\ 0.707 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$$
+```math
+Q^2 K^{2T} = \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}, \quad \frac{Q^2 K^{2T}}{\sqrt{d_k}} = \begin{bmatrix} 0 & 0.707 & 0 \\ 0.707 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}
+```
 
 Attention Weights: Same as Head 1 (due to symmetric design):
 
-$$\text{Attention Weights}^2 = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix}$$
+```math
+\text{Attention Weights}^2 = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix}
+```
 
 Head 2 Output:
 
-$$\text{head}_2 = \text{Attention Weights}^2 \cdot V^2 = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix} \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0.512 & 0.244 \\ 0.244 & 0.512 \\ 0.333 & 0.333 \end{bmatrix}$$
+```math
+\text{head}_2 = \text{Attention Weights}^2 \cdot V^2 = \begin{bmatrix} 0.244 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 \\ 0.333 & 0.333 & 0.333 \end{bmatrix} \begin{bmatrix} 0 & 1 \\ 1 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0.512 & 0.244 \\ 0.244 & 0.512 \\ 0.333 & 0.333 \end{bmatrix}
+```
 
 Concatenate Head Outputs
 
-$$\text{Concat}(\text{head}_1, \text{head}_2) = \begin{bmatrix} 0.244 & 0.512 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 & 0.512 \\ 0.333 & 0.333 & 0.333 & 0.333 \end{bmatrix} \in \mathbb{R}^{3 \times 4}$$
+```math
+\text{Concat}(\text{head}_1, \text{head}_2) = \begin{bmatrix} 0.244 & 0.512 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 & 0.512 \\ 0.333 & 0.333 & 0.333 & 0.333 \end{bmatrix} \in \mathbb{R}^{3 \times 4}
+```
 
 Final Projection
 
 Use identity matrix for simplicity:
 
-$$W_O = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+```math
+W_O = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+```
 
-$$\text{MultiHead Output} = \text{Concat}(\text{head}_1, \text{head}_2) \cdot W_O = \begin{bmatrix} 0.244 & 0.512 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 & 0.512 \\ 0.333 & 0.333 & 0.333 & 0.333 \end{bmatrix}$$
+```math
+\text{MultiHead Output} = \text{Concat}(\text{head}_1, \text{head}_2) \cdot W_O = \begin{bmatrix} 0.244 & 0.512 & 0.512 & 0.244 \\ 0.512 & 0.244 & 0.244 & 0.512 \\ 0.333 & 0.333 & 0.333 & 0.333 \end{bmatrix}
+```
 
 Interpretation
 
@@ -324,7 +355,7 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
 ### Visual Question Answering (VQA)
 
 -   Involves teaching computers to connect the dots between images and language
--   Given an image of a park and question of “how many trees are there”
+-   Given an image of a park and question of "how many trees are there"
     -   Computer needs to analyze the image, identify and count the trees — CV
     -   Computer also needs to comprehend and respond in a human-like manner — NLP
 -   General methodology
