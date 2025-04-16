@@ -174,7 +174,12 @@ TO BE UPDATED
 
 Input Sequence: 3 tokens ("the brown fox"), each with a 4-dimensional embedding.
 
-Input Matrix ( X ): $$X = \begin{bmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \end{bmatrix} \in \mathbb{R}^{3 \times 4}$$
+Input Matrix ( X ): 
+
+```math
+X = \begin{bmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \end{bmatrix} \in \mathbb{R}^{3 \times 4}
+```
+
 
 Sequence length: $n = 3$
 
@@ -236,7 +241,7 @@ $$W_Q^1 = W_Q, \quad W_K^1 = W_K, \quad W_V^1 = W_V$$
 
 Q, K, V: Same as single-head
 
-Attention Weights**: Same as single-head
+Attention Weights\*\*: Same as single-head
 
 Head 1 Output:
 
@@ -283,8 +288,6 @@ Token 1: $[0.244, 0.512, 0.512, 0.244]$, combines Head 1's focus on Token 2's $[
 Token 2: $[0.512, 0.244, 0.244, 0.512]$, combines Head 1's focus on Token 1's $[1, 0]$ and Head 2's focus on Token 1's $[0, 1]$.
 
 Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
-
-
 
 ### Bidirectional Encoder Representations from Transforner (BERT)
 
