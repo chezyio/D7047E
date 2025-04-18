@@ -74,9 +74,17 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
     -   Encoder captures semantics
     -   Decoder restores spatial information
 
+### Fast-RCNN
+
+-   Popular object detection frameworks that builds on R-CNN
+-   Improves over R-CNN by processing entire image once with CNN, rather than cropping and resizing regions individually
+-   Uses ROI pooling to extract fixed size feature maps for each region proposal from the shared CNN feature map
+-   Combines feature extraction, region classification and bounding box regression into a single network
+
 ### Faster-RCNN
 
-TO BE UPDATED
+-   Incorporates a Region Proposal Network (RPN) the eliminates the dependency on external region proposal algorithms
+    -   RPN generates region proposals directly from feature maps of CNN
 
 ## Recurrent Neural Networks (RNN)
 
@@ -469,17 +477,19 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
 -   Words that co-occur frequently or appear in similar surrounding words are asuumed to share semantic properties
     -   "king" and "queen" often appear with terms like "royalty", "palace" and "throne"
 -   In short, the meaning of word is represented in a vector in high-dimensional space based on its distributional properties in a corpus
+-   Word2Vec is a popular technique for generating dense, continuous vector representations of words, capturing semantics and syntactic relationships based on contexts where they appear
+    -   Can be trained using Skip-Gram and Continuous Bag of Words (CBOW)
 
 #### Skip-gram
 
 -   Model used to predict the surrounding words of a target word in a sentence
--   Purpose is to learn word embeddings for capturing semantic similarity
+-   Given word "dog", it predicts "the", "bark" and "loudly"
+
+#### Continuous Bag of Words (CBOW)
+
+-   Predicts the target word based on its surrounding context words
+-   Given context "the", "bark" and "loudly", it predicts "dog"
 
 ## References
 
 Understanding LSTM Networks. (2015, August 27). https://colah.github.io/posts/2015-08-Understanding-LSTMs/
-
-Applications of GAN for Image generation
-general use cases
-Image to Image translation
-Unpaired image translation
