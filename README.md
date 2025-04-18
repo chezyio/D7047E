@@ -9,6 +9,7 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
     -   Fast-RCNN/Faster-RCNN
 -   Recurrent Neural Networks (RNN)
     -   Long Short Term Memory (LSTM)
+    -   Gated Recurrent Units (GRU)
 -   Transformers
     -   Bidirectional Encoding from Transformers (BERT)
     -   Vision Transformers (ViT)
@@ -18,10 +19,25 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
 -   Visual Quesion Answering (VQA)
 -   Reinforcement Learning (RL)
 -   Multi-modal Learning
+-   Research and others
+    -   Google DeepDream
+    -   Google LeNet
+    -   ResNet
+    -   Super-resolution
+    -   Style Transfer
+    -   Dimensionality Reduction
+        -   Principal Component Analysis (PCA)
+        -   t-SNE
+    -   Nautral Lanugage Processing (NLP)
+        -   Distributional Hypothesis
+-   Advanced Topics
+    -   Artificial Curiosity
+    -   AutoML
+    -   Meta Learning
+    -   Explainable AI
+    -   Ethics and Bias
 
-## Key Concepts
-
-### Convolutional Neural Networks (CNN)
+## Convolutional Neural Networks (CNN)
 
 -   Convolution is the operation of applying a kernel/filter to input data to extract features
 -   Convolution produces feature maps highlighting patterns
@@ -41,7 +57,7 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
 -   Semantic information is captured in deeper layers which are abstract and context-focused
 -   Spatial information captures precise location and structure of data and usually preserved in early layers
 
-#### U-Net
+### U-Net
 
 -   Developed for image segmentation
 -   Named after its U-shaped structure of combining an encoder and a decoder with skip connections
@@ -58,31 +74,36 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
     -   Encoder captures semantics
     -   Decoder restores spatial information
 
-#### Faster-RCNN
+### Faster-RCNN
 
 TO BE UPDATED
 
-### Recurrent Neural Networks (RNN)
+## Recurrent Neural Networks (RNN)
 
 ![title](./assets/LSTM3-SimpleRNN.png)
 
 -   Networks with loops in them, allowing information to persist
+-   Uses a tanh function to regulate outputs between -1 and 1
 -   Trained on sequential or time series data that can make sequential predictions
--   Can't learn handle long-term dependencies well enough
+-   Can't learn handle long-term dependencies well enough becuase of vanishing gradients early in the network
 
-### Long Short Term Memory (LSTM)
+## Long Short Term Memory (LSTM)
 
 ![title](./assets/LSTM3-chain.png)
 
 -   Special kind of RNN
 -   Learning long-term depedencies is its default behaviour
 -   LSTM have the ability to remove or add information to cell state using gates
+-   Cell state is a long-term memory component that stores information over long time steps
+    -   Updated by forget and input gates
+-   Hidden state is a short-term memory component that holds information relevant to the current time step and is used for predictions to the next time step
+    -   Dervied from cell state and output gate
 -   Each LSTM cell consists of
     -   Forget gate
     -   Input gate
     -   Output gate
 
-#### Forget Gate
+### Forget Gate
 
 -   Decide what information to throw away from the cell state
 -   Decision is made using a sigmoid layer
@@ -90,26 +111,37 @@ TO BE UPDATED
     -   0 means "completely forget this"
     -   1 means "completely keep this"
 
-#### Input Gate
+### Input Gate
 
 -   Decide what new information to be added to cell state
 -   Sigmoid layer decides whicih values to update
 -   Tanh layer creates a vector of new candidate values that should be added to cell state
 -   Combine sigmoid and tanh layers to update state
 
-#### Updating old cell state $C_{t-1}$ into new cell state $C_t$
+### Updating old cell state $C_{t-1}$ into new cell state $C_t$
 
 -   Multiply old cell state by $f_t$, forgetting the things decided earlier
--   Then add new information ....
+-   Then add $i_t * \tilde{C_t}$
 -   **This is where information is being dropped and added**
 
-#### Output Gate
+### Output Gate
 
 -   Output will be based on cell state but filtered version
 -   First, run a sigmoid layer to decide what parts of cell state is going to output
 -   Then put cell state through tanh and multiply it by output of sigmoid gate
 
-### Transformers
+## Gated Recurrent Units (GRU)
+
+![title](./assets/LSTM3-var-GRU.png)
+
+-   Dramatic Variation of LSTM
+-   Combines forget and input gate into a single "update" gate
+-   "update" gate decides what information to discard and add
+-   "reset" gate decides how much past information to forget
+-   No cell state, instead use hidden state to transfer information
+-   Arguably more efficient that LSTM
+
+## Transformers
 
 -   Used for sequence to sequence tasks like NLP
 -   Relies entirely on attention mechanism to model relationship between elements in a sequence
@@ -130,7 +162,7 @@ TO BE UPDATED
 
 -   Unlike RNNs, transforners are highly parallelizable and can process all elements simultaeneously
 
-#### Attention
+### Attention
 
 -   Query (Q), Key (K) and Value (V) vectors are the core components of the attention mechanism, specifically the scaled dot-product attention
 -   Q represents a question of request for infornation about relevance of other elements in the sequence
@@ -164,17 +196,17 @@ TO BE UPDATED
 
         6.2. Each output vector for a token $i$ is a weighed combination of all value vectors, emphasizing tokens with high attention scores
 
-#### Multi-head Attention
+### Multi-head Attention
 
 -   The use of multiple heads allows us to capture diverse relationships
 -   Split $Q, K, V$ into $h$ smaller heads, each with dimension $d_k/h$
 -   Attention is independently computed for each head and results are concatenated at the end before passing through a linear layer
 
-#### Toy Example
+### Toy Example
 
 Input Sequence: 3 tokens ("the brown fox"), each with a 4-dimensional embedding.
 
-Input Matrix ( X ): 
+Input Matrix ( X ):
 
 ```math
 X = \begin{bmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \end{bmatrix} \in \mathbb{R}^{3 \times 4}
@@ -325,9 +357,9 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
 -   Learns to represent text as a sequence of vectors using self-supervised
 -   Uses encoder-only from transfomer architecture
 
-### Vision Transformer (ViT)
+## Vision Transformer (ViT)
 
-### General Adversarial Networks (GAN)
+## General Adversarial Networks (GAN)
 
 -   GANs generate samples in one-shot directly from low-dimentional latent variables
 -   Diffusion generate samples iteratively by repeatedly refining and remove noise
@@ -335,7 +367,7 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
     -   Generator turns noise into an imitation of data to try trick the discriminator
     -   Discriminator tries to identify real data from fakes created by generator
 
-### Autoencoders
+## Autoencoders
 
 -   Unsupervised approach for learning a lower-dimensional feature representation from unlabeled training data
 -   Lower diemnsional space would effectively mean compressing into a small latent vector and leanring a very compact and rich feature representation
@@ -346,13 +378,13 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
 -   Since layer Z is deterministic, it will always reconstruct the same output given the same weight
 -   Stochasticity needs to be introduced to learn the latent space well, this is where VAE comes into play
 
-### Variational Autoencoders
+## Variational Autoencoders
 
 -   Builds on autoencoders
 -   VAEs are a probabilistic twist on autoenconders
 -   Stochasticity needs to be introduced to learn the latent space well, this is where VAE comes into play
 
-### Visual Question Answering (VQA)
+## Visual Question Answering (VQA)
 
 -   Involves teaching computers to connect the dots between images and language
 -   Given an image of a park and question of "how many trees are there"
@@ -369,7 +401,7 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
     -   Straightforward combination using concatenation followed by input into linear classifier
     -   Use bayesian models to deduce inherent relationships between feature distributions of image, question and answer
 
-### Multi-modal Learning
+## Multi-modal Learning
 
 -   Multi-modal model requires specialized embeddings and fusion modules to create representations of the different modalities
 -   Multi-modal deep learning trains AI models that combine information from several types of data simultaeneously to learn their unified data representations
@@ -388,24 +420,66 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
     -   Intermediate — or feature-level fusion, concatenates feature representations from each modality before making predictions
     -   Late — processes each modality through model independently and returns individual outputs, independent predictions are then fused at later stage using averaging
 
-### Stable Diffusion
+## Stable Diffusion
 
 -   Model consists of VAE with U-Net based on a cross-attention mechanism to handle various input modalities
 -   Encoder block of VAE transform image from pixel space to latent representation, downsampling image to reduce complexity
 -   Image is denoised using U-Net iteratively to reverse diffusion steps and reconstruct sharp image using VAE decoder block
 
+## Research and Others
+
+### Google DeepDream
+
+-   DeepDream is a computer vision program created by Google to visualize and understand the features learned by CNNs
+-   Does not have a predefined loss function, instead it focuses on amplifying features already recognized by the model
+-   Process involves selecting specific layers or neurons in the network and modifying the input image to amplify their activations
+-   Results in feedback loops that emphasize patterns the network see in the image rather then correcting for any errors
+
+### Style Transfer
+
+-   Technique in computer vision that involes merging content of one image with the artistic style of another
+-   Leverages CNNs to create visually stunning images that look like a photograph painted in the style of famous artists
+-   Content can be extracted from deeper layers of the CNN capture high-level structure and sematic information while style can be extracted from the shallow and mid-layers of a CNN that encodes patterns such as textures, colors and strokes
+-   Typically has 2 loss functions
+    -   Content loss ensures output image retains high-level structure of content
+    -   Style loss ensures the output captures the texture and color patterns
+
+### Principal Component Analysis (PCA)
+
+-   PCA is a dimensionality reduction technique used to simplify datasets by reducing the number of features while preservering as much variance as possible
+-   PCA identifies the principal components along which data varies the most
+    -   PC1 typically denotes the component with the highest variance
+    -   PC2 typically denotes the component with the second highest variance
+    -   PC1 and PC2 must be uncorrelated and orthogonal to each other
+
+### t-SNE
+
+-   t-SNE is a dimensionality reduction technique primarily used for visualizing high-dimensional data in 2D or 3D space
+-   Focuses on preserving local structure where points that are close in high-dimensional space remain close in the lower-dimensional representation
+-   Converts distances between data points into probabilities for similarity
+
+### Nautral Lanugage Processing (NLP)
+
+#### Distributional Hypothesis
+
+-   "Words that occur in similar context tend to have similar meanings"
+-   Underpinds much of modern computational linguistics and many word representation techniques
+-   The semantics of a word can be inferred from the contexts in which it appears
+    -   "cat" and "dog" often occur in similar context
+-   Words that co-occur frequently or appear in similar surrounding words are asuumed to share semantic properties
+    -   "king" and "queen" often appear with terms like "royalty", "palace" and "throne"
+-   In short, the meaning of word is represented in a vector in high-dimensional space based on its distributional properties in a corpus
+
+#### Skip-gram
+
+-   Model used to predict the surrounding words of a target word in a sentence
+-   Purpose is to learn word embeddings for capturing semantic similarity
+
 ## References
 
 Understanding LSTM Networks. (2015, August 27). https://colah.github.io/posts/2015-08-Understanding-LSTMs/
 
-skipgram
-distributional hypotjhesis
-
-Deep dream.
-Style transfer
-
 Applications of GAN for Image generation
 general use cases
-superresolution
 Image to Image translation
 Unpaired image translation
