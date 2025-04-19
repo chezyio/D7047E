@@ -11,6 +11,7 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
     -   Long Short Term Memory (LSTM)
     -   Gated Recurrent Units (GRU)
 -   Transformers
+    -   Attention Mechanism
     -   Bidirectional Encoding from Transformers (BERT)
     -   Vision Transformers (ViT)
 -   Generative Adversarial Networks (GAN)
@@ -367,13 +368,53 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
 
 ## Vision Transformer (ViT)
 
-## General Adversarial Networks (GAN)
+## Generative Adversarial Networks (GAN)
 
--   GANs generate samples in one-shot directly from low-dimentional latent variables
--   Diffusion generate samples iteratively by repeatedly refining and remove noise
 -   Idea is to use 2 neural networks to compete with each other
     -   Generator turns noise into an imitation of data to try trick the discriminator
     -   Discriminator tries to identify real data from fakes created by generator
+-   2 models are trained simultaeneously in a zero-sum game where the generator improves by trying to trick the discriminator and the discriminator improves by getting better at spotting fakes
+-   Process continues until Nash Equilibrium is reached where generator outputs are so realistic that discriminatot can't differentiate
+-   For the generator
+    -   A random noise vector $z$ is drawn from a Gaussian distribution as input
+    -   Outputs $G(z)$ that ideally resembles real data
+-   For the discriminator
+    -   Either real data $x$ or fake data $G(z)$ can be taken as an input
+    -   A scalar probability $D(x)$ or $D(G(z))$ between 0 (fake) and 1 (real) os the output
+-   Training procsss is a minimax game
+
+    -   Discriminator's goal is to maximise probability of correctly classifying real dataa and fake data
+    -   Generator's goal is to minimize probability of discriminator's output being correctly identifying as fake
+
+-   Training steps
+
+    -   Update Discriminator:
+
+        -   Sample real images from the dataset (e.g., photos of cats).
+        -   Sample noise $z$ and generate fake images using the generator.
+        -   Compute the discriminator’s loss:
+            -   Reward it for labeling real images as real $D(\text{real}) \approx 1$.
+            -   Reward it for labeling fake images as fake $D(\text{fake}) \approx 0$.
+        -   Update the discriminator’s weights via backpropagation.
+
+    -   Update Generator:
+
+        -   Sample noise $z$ and generate fake images.
+        -   Pass fake images through the discriminator to get $D(\text{fake})$.
+        -   Compute the generator’s loss based on how well it “fooled” the discriminator (i.e., maximize $D(\text{fake})$.
+        -   Update the generator’s weights via backpropagation.
+
+    -   Repeat:
+        -   Alternate these steps for thousands of iterations. Typically, the discriminator is updated more frequently (e.g., 5 times per generator update) because it learns faster.
+
+-   Mode collapse can happen when generator produces limited varieties of outputs, ignoring parts of the real data distribution
+-   Vanishing gradients can occur if the discriminator becomes too good too quickly where it assigns near-zero probabilities to fake data, leaving generator with little gradient to learn from
+
+## Stable Diffusion
+
+-   Model consists of VAE with U-Net based on a cross-attention mechanism to handle various input modalities
+-   Encoder block of VAE transform image from pixel space to latent representation, downsampling image to reduce complexity
+-   Image is denoised using U-Net iteratively to reverse diffusion steps and reconstruct sharp image using VAE decoder block
 
 ## Autoencoders
 
@@ -427,12 +468,6 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
     -   Early — combines data from various modalities early on in training pipeline
     -   Intermediate — or feature-level fusion, concatenates feature representations from each modality before making predictions
     -   Late — processes each modality through model independently and returns individual outputs, independent predictions are then fused at later stage using averaging
-
-## Stable Diffusion
-
--   Model consists of VAE with U-Net based on a cross-attention mechanism to handle various input modalities
--   Encoder block of VAE transform image from pixel space to latent representation, downsampling image to reduce complexity
--   Image is denoised using U-Net iteratively to reverse diffusion steps and reconstruct sharp image using VAE decoder block
 
 ## Research and Others
 
