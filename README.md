@@ -469,6 +469,52 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
     -   Intermediate — or feature-level fusion, concatenates feature representations from each modality before making predictions
     -   Late — processes each modality through model independently and returns individual outputs, independent predictions are then fused at later stage using averaging
 
+## Reinfocement Learning (RL)
+
+-   When compared to supervised and unsupervised learning, RL does not have a supervisor, only a reward signal
+    -   Feedback is delayed and not instantaneous
+    -   Time matters
+    -   Agent's actions affect the subsequent data it receives
+-   At each step $t$, the agent
+    -   Executes action $A_t$
+    -   Receives observation $O_t$
+    -   Receives scalar reward $R_t$
+
+### Reward
+
+-   A reward ${R_t}$ is a scalar feedback signal
+-   Used to indicate how well agent is doing at step $t$
+-   Agent's job is to maximise the cumulative reward
+-   Reward hypothesis states that all goals can be described by the maximisation of expected cumulatuve reward
+
+### Information State
+
+-   An information state, also known as Markov state contains all useful information from the history
+-   A state $S_t$ is Markov if and only if $\mathbb{P}[S_{t+1}|S_t] = \mathbb{P}[S_{t+1}|S_1,...,S_t]$
+    -   Markovian propety states that transition properties depend only on current state and not on previous history
+
+### Observable Environments
+
+-   Full observability would mean the agent directly observes the environment state ($O_t = S^a_t = S^e_t$)
+-   Partially observable environemnts would mean agent indirectly observe environment and agent state does not eqaute to environment state
+
+### Major Components of RL agent
+
+-   Policy is action that an agent takes in any given state
+    -   Map from state to action
+    -   Can be deterministic or stochastic
+-   Value function defines how good is each state and/or action
+    -   Predict future reward
+-   Model is the agent's representation of the environment
+    -   Predicts what the environment will do next
+    -
+
+### Types of RL agent
+
+-   Value-based
+-   Policy-based
+-   Actor Critic
+
 ## Research and Others
 
 ### Google DeepDream
@@ -524,6 +570,26 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
 
 -   Predicts the target word based on its surrounding context words
 -   Given context "the", "bark" and "loudly", it predicts "dog"
+
+### TinyML
+
+-   A way to run ML models on small, low-power devices like microcontrollers
+-   Common applications include voice assisstants on devices, smart doorbells and fitness trackers
+-   Primarily designed to bring AI capabilities to devices that don't have much processing power, memory, battery life or limited internet connectivity
+-   Uses small, optimized models that are compressed to fit on tiny devices
+-   Training is done on powerful computers while inference is done on small device
+
+#### Building TinyML Models
+
+-   Pruning, knowledge distillation and quantization are key techniques for optimizing ML models to run on resource-constrained devices
+-   Pruning involves removing parts of a neural netwwork that contribute little to its predictions, making the model smaller and faster
+    -   Similar to the concept of trimming unnecessary branches from a tree
+    -   Analyze model to find weights with low impact on the output
+    -   Retrain the model after pruning
+-   Types of pruning
+    -   Weight pruning sets small weights to zero, creating a spare model
+    -   Neuron pruning removes the entire neuron itself
+-   Over-pruning can hurt accuracy, so must balance size reduction and performance
 
 ## References
 
