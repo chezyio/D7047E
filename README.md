@@ -591,6 +591,25 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
     -   Neuron pruning removes the entire neuron itself
 -   Over-pruning can hurt accuracy, so must balance size reduction and performance
 
+#### Knowledge Distillation
+
+-   Adopts the concept of teacher-student training, where the student learns to miimic the teacher's behaviour while being lightweight
+-   A technique where a large, accurate model (the teacher) transfers its knowledge to a smaller, simpler model (the student)
+-   The student model can be trained to match both the true labels and the teacher's soft prediction, allowing it to learn nuanced patterns
+
+#### Quantization
+
+-   Quantization reduces the precision of a model's weights and computations, making it smaller and faster
+-   Instead of using 32-bit FP, quantization uses 8-bit integers that takes up lesser memory and making it faster
+-   Ways to quantize
+    -   Post-training Quantization (PTQ) — after training a model with FP weights, convert it to use inteeers
+    -   Quantization-aware Training (QAT) — incorporates quantization effects during training, allowing the model to adapt to low-precision constraints, whereas PTQ applies quantization as a post-processing step
+-   Types of quantization
+    -   Weight-only — only weights are quantized
+    -   Full quantization — both weights and activations are quantized, reducing size and speeding up inference
+    -   Dyanmic range quantization — quantizes weights statically but activations dynamically during inference
+    -   Integer-only quantization — ensures all operations use integers
+
 ## References
 
 Understanding LSTM Networks. (2015, August 27). https://colah.github.io/posts/2015-08-Understanding-LSTMs/
