@@ -610,6 +610,36 @@ Token 3: $[0.333, 0.333, 0.333, 0.333]$, neutral in both heads.
     -   Dyanmic range quantization — quantizes weights statically but activations dynamically during inference
     -   Integer-only quantization — ensures all operations use integers
 
+### Artificial Curiosity
+
+-   Design of AI systems that mimic human-like curiosity to explore, learn and adapt in dynamic environments
+-   Unlike tradtional AI that relies on extrinsic rewards (e.g., acheiving a specific goal), artificial curiosity is driven by intrinsic motivation where the AI explores because it wants to understand or discover something new
+    -   Intrinsic rewards include novelty (encountering new states), surprise (unexpected outcome), or prediction error (gaps between expected and actual result)
+-   Balances exploration with exploitation
+-   Curiosity onften involes maximizing information gain, where AI seeks to reduce uncertainty about environment
+    -   Can be modelled using Bayesian surprise
+
+### AutoML
+
+-   Automation of end-to-end process of applying ML to real-world problems
+-   Aims to make ML accessible to non-experts by automating task like data preprocessing, feature engineering, model selection, hyperparameter tuning and deployment
+-   Common techniques include
+    -   Bayesian optimization — models the performance of hyperparameters to efficiently search for optimal settings
+    -   Genetic algorithms — evolves model architecture or pipelines over generations
+    -   RL — guides search for optimal models or architectures
+    -   Gradient-based methods — optimizes neural architectures directly
+
+### Meta-learning
+
+-   A paradigm where model learns how to learn new tasks efficiently by leveraging experience from related tasks
+-   Goal is to create AI that generalizes quickly to new problems with minimal data or training
+-   Meta-learning assumes a distribution of tasks where the model learns a general strategy to adapt to new tasks from this distribution
+-   Few-shot learning is commonly used to learn a new task with very few samples of data
+-   Types of meta-learning
+    -   Metric-based — learns a similarity metric to compare new exmaples to known ones
+    -   Model-based — learns a model that can quickly adapt
+    -   Optimization-based — learns an initialization or optimization strategy that enables fast adaptation
+
 ## References
 
 Understanding LSTM Networks. (2015, August 27). https://colah.github.io/posts/2015-08-Understanding-LSTMs/
