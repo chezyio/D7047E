@@ -1,15 +1,59 @@
 ## General Questions
 
-What regularization techniques do you know?
-What is batch normalization?
-What initialization methods do you know?
-What are some methods for dealing with the vanishing gradient problem?
-What are some ways to deal with a model that overfits?
-What metrics can be used for evaluating the model and give examples of
-when they can be used?
-Prepare for questions where you are given a model and the result and you have to determine
-strengths and weaknesses, we might also ask you to come up with an
-alternative solution.
+1. What regularization techniques do you know?
+
+    L1 regularization adds absolute values of the model's weights to the loss function by driving some weights to zero.
+    L2 regularization adds squared values of model's weights to the loss function by penalizing large weights, encourage smaller and more evenly distributed weights.
+    Dropout can be used to randomly deactivate neurons during training
+
+2. What is batch normalization?
+
+    Batch normalization is a technique used in neural networks to stablilize and accelerate training by normalizing the inputs to each layer. It works by adjusting and scaling the activations with a mini-batch to have a mean of zero and a variance of one. Using batch normalization stabilizes training and allows the the network to converge faster.
+
+3. What initialization methods do you know?
+
+    Zero initialization sets all weights and biases to zero, so neurons learn the same features and this leads to poor training. Random initialization draws weights from normal or uniform distribution, however if range is too large, it can cause exploding or vanishing gradients. He initialization is commonly used for neural networks with ReLU-based activation function where weights are drawn from a normal distribution with a variance $\frac{2}{\text{number of input units}}$
+
+4. What are some methods for dealing with the vanishing gradient problem?
+
+    - Use appropriate weight initialization technique to ensure gradients start with reasonable magnitudes
+    - Use non-saturating activation functions such as ReLU so that activations are not squashed into small ranges, ReLU is particularly effective due to its linear positive region
+    - Use batch normalization as discussed earlier or layer normalization for sequential data
+    - Use regularization as discussed earlier
+    - Use LSTMs or transformers
+
+5. What are some ways to deal with a model that overfits?
+
+    - Apply regularization and dropout
+    - Use augmentation to expand training dataset
+    - Use early stopping by monitoring validation loss during training and stop when it stops improving
+
+6. What metrics can be used for evaluating the model and give examples of when they can be used?
+
+    Classification
+
+    - Accuracy — proportion of correct predictions out of all predictions,
+        - Predicting whether an email is spam or not with roughly equal numbers of spam and non-spam emails
+    - Recall — proportion of true positives correctly identified out of all actual positives
+        - Medical diagnosis where missing something is dangerous
+    - Precision — Proportion of true positive predictions out of all positive predictions
+        - Fraud detection, where falsely flagging a legitimate transaction is costly
+    - F1 score — harmonic mean of precision and recall, helpful in imbalanced dataset
+        - Sentiment analysis with imbalanced classes
+
+    Regression
+
+    - Mean Squared Error (MSE) — average of squared difference between predicted and actual values
+        - House price preediction
+    - Mean Absolute Error (MAE) — average of absolute difference between predicted and actual values
+
+    Computer Vision
+
+    - Intersection over Union (IoU) — ratio of intersection to the union of predicted and groud-truth label
+        - Car detection
+    - Mean Average Precision (mAP) — average precision across classes and IoU thresholds
+
+Prepare for questions where you are given a model and the result and you have to determine strengths and weaknesses, we might also ask you to come up with an alternative solution
 
 ## Convolutional Neural Networks
 
@@ -92,35 +136,6 @@ alternative solution.
 9. When would you want to use RNN, CNNs and Transformers? What are their strengths and weaknesses?
 
     RNNs are ideal for sequential data, such as time series, natural language, or speech, as they capture temporal dependencies through their recurrent structure. However, RNNs struggle with long-term dependencies due to the vanishing gradient problem and are computationally slow due to their sequential processing. CNNs excel at processing grid-like data, such as images, by leveraging convolutional layers to capture spatial hierarchies and local patterns. They are highly efficient and effective for tasks like image classification and object detection but are less suited for sequential or relational data. Transformers, on the other hand, are versatile and excel at capturing global dependencies in both sequential and non-sequential data using self-attention mechanisms. They are particularly effective for NLP tasks and are increasingly applied to vision tasks.
-
-## General Adversarial Networks and Stable Diffusion
-
-What is deconv?
-What is deep dream?
-What is style transfer?
-What is GAN and how does it work?
-What is stable diffusion and what separates it from normal diffusion?
-What are the differences between GAN and stable diffusion? What are the
-advantages and disadvantages of each of them?
-What is the difference between image captioning and VQA, explain both the
-concepts?
-
-## Reinforcement Learning and TinyML
-
-What is reinforcement learning and how is it different from supervised
-learning?
-What is model based RL and model free RL?
-What is policy and value based RL?
-What is the difference between Q-learning and policy gradients?
-Why would we use a discounted error (γ)?
-How does REINFORCE work?
-(Advanced) What is a replay buffer and what problem does it help us deal
-with?
-(Advanced) How is self-play overcoming the lack of exploration?
-Why do we quantize the models in TinyML and how does this affect the
-performance?
-What are the two methods for quantization of a model and how are they
-different from each other?
 
 ## Advanced topics
 
