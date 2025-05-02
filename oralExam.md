@@ -137,6 +137,63 @@ Prepare for questions where you are given a model and the result and you have to
 
     RNNs are ideal for sequential data, such as time series, natural language, or speech, as they capture temporal dependencies through their recurrent structure. However, RNNs struggle with long-term dependencies due to the vanishing gradient problem and are computationally slow due to their sequential processing. CNNs excel at processing grid-like data, such as images, by leveraging convolutional layers to capture spatial hierarchies and local patterns. They are highly efficient and effective for tasks like image classification and object detection but are less suited for sequential or relational data. Transformers, on the other hand, are versatile and excel at capturing global dependencies in both sequential and non-sequential data using self-attention mechanisms. They are particularly effective for NLP tasks and are increasingly applied to vision tasks.
 
+## General Adversarial Networks and Stable Diffusion
+
+1. What is deconv?
+
+    Deconvolution is the opposite of convolution, it upsamples or increases the spatial dimensions of a feature map. Typically implemented as a transposed convolution. Output size is determined by $\text{stride×(input size−1)+kernel size−2×padding}$
+
+2. What is deep dream?
+
+    Deep Dream is a fascinating technique developed by Google in 2015 that uses a convolutional neural network (CNN) to generate surreal,
+    dream-like images by enhancing patterns the network "sees" in an input image
+
+3. What is style transfer?
+
+    Style transfer is a deep learning technique that combines the content of one image with the style of another image to create a new image. A content image and style image are taken as inputs. The images are then fed through the CNN and features from the context are being extracted from deeper layers which are rich in semantic information. The styles are extracted from multiple layers (often earlier ones) which captures textures, colors and patterns by measuring correlation between feature maps. Content loss measures how much the target's image contet deviates fromt he content image while style loss measures how much the target image's style deviates from the style image. The total loss is a weighted sum of the content loss and style loss. Gradient descent is used to iteratively modfiy the target image pixels to minimize the total loss.
+
+4. What is GAN and how does it work?
+
+    A deep learning framework that generates realistic data by having two neural netwroks, a generator and a discriminator go against each other. The generator creates fake data from random noise and attempts to fool the discriminator. THe discriminator judges whether data is real (from dataset) or fake (from generator). Over time, the generator improves its fakes to trick the discriminator while the discriminator gets better at spotting fakes. Both networks compete until the generator produces data that's nearly indistinguishable form the real data. For discriminator training, feed real data and label it as "real", feed fake data and label it as "fake", then update discriminator's weights to better distinguish real and fake by minimizing classification error. For generator training, pass the fake data to the discriminator and try to make the discriminator think its real (output close to 1), update generator's weights to fool the discriminator (minimize discriminator's ability to call it fake). The discriminator's loss is based on binary classification while the generator's loss is based on how well it tricks the discriminator. Train time iteratively and the generator should get better at producing realistic data and the discriminator gets better at spotting fakes. Ideally, they reach an equilibrium where the discriminator can’t tell real from fake (outputs ~0.5 for both).
+
+5. What is stable diffusion and what separates it from normal diffusion?
+
+    Diffusion models generate data by starting with random noise and gradually refining it into a clear output through step-by-step denoising process. Stable Diffusion is a specific type of diffusion model that runs the denoising process in a latent space instead of full iamge space, making it faster and less resource-intensive. Normal diffusion requires many denoising steps making generation slow and resource-intensive while stable diffusion uses fewer steps with optimized sampling. Normal diffusion is often unconditioned or conditioned to simple inputs while stable diffusion is designed for text conditioning. Normal diffusion uses a U-Net to denoise in pixel space while stable diffusion combines U-Net with pre-trained autoencoder and CLIP for latent diffusion and text guidance.
+
+6. What are the differences between GAN and stable diffusion? What are the advantages and disadvantages of each of them?
+
+    | **Aspect**                   | **GANs**                                                                                                                                                                  | **Stable Diffusion**                                                                                                                                        |
+    | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | **Core Mechanism**           | Two networks: Generator creates fake data; Discriminator distinguishes real vs. fake. Adversarial minimax game.                                                           | Diffusion model: Iteratively denoises noise in latent space using a U-Net, guided by an autoencoder and CLIP.                                               |
+    | **Training Process**         | Adversarial training; simultaneous Generator and Discriminator optimization. Prone to instability (e.g., mode collapse).                                                  | Non-adversarial; U-Net predicts noise in latent space. More stable but requires pretraining autoencoder.                                                    |
+    | **Input & Conditioning**     | Random noise; conditional GANs use labels or limited text inputs. Less flexible for complex prompts.                                                                      | Random noise in latent space; excels at text conditioning via CLIP for complex prompts (e.g., “a dragon in a spacesuit”).                                   |
+    | **Output Generation**        | Single forward pass through Generator; fast inference.                                                                                                                    | Iterative denoising (50–100 steps); slower but controllable.                                                                                                |
+    | **Computational Efficiency** | Training is intensive; inference is fast (milliseconds). Requires large compute for stability.                                                                            | Training is heavy; inference is efficient in latent space, runs on consumer GPUs (~seconds).                                                                |
+    | **Architecture**             | Generator uses transposed convolutions (deconv); Discriminator is typically a CNN.                                                                                        | U-Net for denoising; autoencoder (encoder + decoder) for latent space; CLIP for text.                                                                       |
+    | **Applications**             | Face generation (StyleGAN), super-resolution (SRGAN), image-to-image (CycleGAN). Less flexible for text-to-image.                                                         | Text-to-image, inpainting, image-to-image, style transfer. Highly flexible for creative tasks.                                                              |
+    | **Accessibility**            | Some open-source models (e.g., DCGAN); many are proprietary or research-focused.                                                                                          | Fully open-source (e.g., Hugging Face); pretrained weights widely available.                                                                                |
+    | **Advantages**               | - Fast inference (~milliseconds).<br>- High-quality in specific domains (e.g., faces).<br>- Mature ecosystem since 2014.<br>- Compact Generator models.                   | - Stable training (no mode collapse).<br>- Efficient on consumer GPUs.<br>- Flexible text conditioning.<br>- Open-source and versatile.                     |
+    | **Disadvantages**            | - Unstable training (mode collapse, vanishing gradients).<br>- Hard to train (needs tuning).<br>- Limited for complex text prompts.<br>- Ethical risks (e.g., deepfakes). | - Slower inference (~seconds).<br>- Complex pretraining.<br>- Text prompt dependency (poor prompts = poor results).<br>- Minor artifacts, ethical concerns. |
+
+7. What is the difference between image captioning and VQA, explain both the concepts?
+
+    Image captioning and VQA are 2 distinct tasks that involes understanding images and generating or processing text. While both combine visual and language understanding, they differ in objectives, inputs and outputs. Image captioning is the task of automatically generating a natural language description that summarizes the content of an image. VQA is the task of answering a natural language question about an image, requiring both visual understanding and reasoning.
+
+    | **Aspect**             | **Image Captioning**                                                          | **Visual Question Answering (VQA)**                                                  |
+    | ---------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+    | **Objective**          | Generate a descriptive caption summarizing the image’s content.               | Answer a specific question about the image, requiring targeted understanding.        |
+    | **Input**              | Image only.                                                                   | Image + text question.                                                               |
+    | **Output**             | A full sentence or phrase (e.g., “A dog runs in a field”).                    | A short answer, often a word, phrase, or sentence (e.g., “Blue”).                    |
+    | **Task Type**          | Generative: Produces open-ended text.                                         | Answer prediction: Often classification or short text generation.                    |
+    | **Processing**         | Vision model extracts features; language model generates a sequence of words. | Vision and language models process image and question; fusion model predicts answer. |
+    | **Reasoning**          | Summarizes key elements without explicit reasoning.                           | Requires reasoning to interpret the question and extract relevant details.           |
+    | **Output Scope**       | Broad, holistic description of the image.                                     | Narrow, specific response tied to the question.                                      |
+    | **Training Data**      | Image-caption pairs (e.g., MS-COCO: image + “A cat on a mat”).                | Image-question-answer triplets (e.g., VQA v2: image + “What’s on the mat?” + “Cat”). |
+    | **Evaluation Metrics** | BLEU, ROUGE, CIDEr (measure caption quality).                                 | Accuracy, F1 score (measure answer correctness).                                     |
+    | **Complexity**         | Simpler, generates general descriptions.                                      | More complex, requires understanding question intent and image details.              |
+    | **Example**            | Input: Image of a beach. Output: “Waves crash on a sandy beach.”              | Input: Image of a beach + “What color is the water?” Output: “Blue.”                 |
+
+
 ## Advanced topics
 
 Artificial Curiosity
