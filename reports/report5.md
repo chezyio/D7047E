@@ -24,4 +24,4 @@ PCA is ideal for simplifying data for analysis or modeling by reducing the numbe
 
 ## Project
 
-I've have also spent more time exploring other kinds of detection models such as RF-DETR and augmentation techniques.
+I've have also spent more time exploring other kinds of detection models such as RF-DETR, Faster-RCNN and augmentation techniques.
