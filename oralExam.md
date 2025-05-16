@@ -193,6 +193,23 @@ Prepare for questions where you are given a model and the result and you have to
     | **Complexity**         | Simpler, generates general descriptions.                                      | More complex, requires understanding question intent and image details.              |
     | **Example**            | Input: Image of a beach. Output: “Waves crash on a sandy beach.”              | Input: Image of a beach + “What color is the water?” Output: “Blue.”                 |
 
+## Reinforcement Learning and TinyML
+
+1. What is reinforcement learning and how is it different from supervised learning?
+   Reinforcement Learning (RL) is a machine learning approach where an agent learns to make decisions by interacting with an environment to maximize a cumulative reward, using trial and error without explicit instructions. Unlike Supervised Learning, where a model is trained on labeled input-output pairs to minimize prediction errors, RL relies on sparse, delayed rewards rather than immediate labels. In RL, the agent explores actions, learns from feedback, and optimizes a policy for long-term goals. Supervised learning is suited for static prediction tasks like image classification. RL’s dynamic, sequential decision-making and lack of labeled data make it more complex but ideal for tasks requiring adaptability, while supervised learning’s reliance on labeled datasets makes it simpler and effective for well-defined prediction problems.
+
+2. What is model based RL and model free RL?
+
+    Model-based RL and model-free RL are 2 approaches within RL, differing in how the agent learns to make decisions in an environment to maximize cumulative rewards. 
+
+3. What is policy and value based RL?
+4. What is the difference between Q-learning and policy gradients?
+5. Why would we use a discounted error (γ)?
+6. How does REINFORCE work?
+7. (Advanced) What is a replay buffer and what problem does it help us deal with?
+8. (Advanced) How is self-play overcoming the lack of exploration?
+9. Why do we quantize the models in TinyML and how does this affect theperformance?
+10. What are the two methods for quantization of a model and how are theydifferent from each other?
 
 ## Advanced topics
 
