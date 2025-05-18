@@ -200,7 +200,7 @@ Prepare for questions where you are given a model and the result and you have to
 
 2. What is model based RL and model free RL?
 
-    Model-based RL and model-free RL are 2 approaches within RL, differing in how the agent learns to make decisions in an environment to maximize cumulative rewards. 
+    Model-based RL and model-free RL are 2 approaches within RL, differing in how the agent learns to make decisions in an environment to maximize cumulative rewards.
 
 3. What is policy and value based RL?
 4. What is the difference between Q-learning and policy gradients?
