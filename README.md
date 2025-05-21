@@ -75,16 +75,30 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
     -   Encoder captures semantics
     -   Decoder restores spatial information
 
-### Fast-RCNN
+### R-CNN
 
--   Popular object detection frameworks that builds on R-CNN
+-   Selective search algorithm is used to generate region proposals from input image
+    -   Selective search algorithm is desgined to have high recall but low precision
+    -   Slow and cannot be used in real-time inference
+-   Each region is warped to a fixed size and pass through a pre-trained CNN to extract features
+    -   Having a fixed size would mean loosing semantic information due to distortion
+-   For each region, a classifier predicts the object class
+    -   This step is trained separately from the CNN
+
+### Fast R-CNN
+
+-   Builds on R-CNN
+-   Region proposal algorithm is stil quite slow for most practical applications and not specifically tuned for object detection
 -   Improves over R-CNN by processing entire image once with CNN, rather than cropping and resizing regions individually
 -   Uses ROI pooling to extract fixed size feature maps for each region proposal from the shared CNN feature map
 -   Combines feature extraction, region classification and bounding box regression into a single network
+-   Key difference between R-CNN and Faster R-CNN
+    -   For R-CNN, CNN is used to on each proposed region
+    -   For Faster R-CNN, CNN is used for the entire image and classifies the region proposals in the feature map
 
-### Faster-RCNN
+### Faster R-CNN
 
--   Incorporates a Region Proposal Network (RPN) the eliminates the dependency on external region proposal algorithms
+-   Builds on Fast R-CNN by introudcing a Region Proposal Network (RPN) the eliminates the dependency on external algorithms
     -   RPN generates region proposals directly from feature maps of CNN
 
 ## Recurrent Neural Networks (RNN)
@@ -96,7 +110,7 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
 -   Trained on sequential or time series data that can make sequential predictions
 -   Can't learn handle long-term dependencies well enough becuase of vanishing gradients early in the network
 
-## Long Short Term Memory (LSTM)
+### Long Short Term Memory (LSTM)
 
 ![title](./assets/LSTM3-chain.png)
 
@@ -123,7 +137,7 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
 ### Input Gate
 
 -   Decide what new information to be added to cell state
--   Sigmoid layer decides whicih values to update
+-   Sigmoid layer decides which values to update
 -   Tanh layer creates a vector of new candidate values that should be added to cell state
 -   Combine sigmoid and tanh layers to update state
 
@@ -193,7 +207,7 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
 
         4.1. $\text{Similarity} = QK^T \in \R^{n \times n}$
 
-        4.2. $\text{Scaled Scores} = \frac{QK^T}{\sqrt{d_k}}$, $\sqrt{q_k}$ is used for numerical stability to prevent large values that can potentially destabilize gradients
+        4.2. $\text{Scaled Scores} = \frac{QK^T}{\sqrt{d_k}}$, $\sqrt{d_k}$ is used for numerical stability to prevent large values that can potentially destabilize gradients
 
     5. To calculate the attention weights, apply softmax to scaled scores
 
@@ -215,7 +229,7 @@ Taken at Luleå University of Technology 🇸🇪 and mapped to SC4001 Neural Ne
 
 Input Sequence: 3 tokens ("the brown fox"), each with a 4-dimensional embedding.
 
-Input Matrix ( X ):
+Input Matrix $X$:
 
 ```math
 X = \begin{bmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \end{bmatrix} \in \mathbb{R}^{3 \times 4}
